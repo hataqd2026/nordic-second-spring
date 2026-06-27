@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>北欧第二春 · 优势测评</title>
+    <style>
+        /* ====== 全局重置 & 配色 ====== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #f5f2ed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+        .container {
+            max-width: 420px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            padding: 28px 24px 36px;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        /* ====== 顶部品牌 ====== */
+        .brand {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #b8a69b;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 6px;
+            font-weight: 400;
+        }
+        .brand span {
+            background: #f0ebe6;
+            padding: 2px 12px;
+            border-radius: 20px;
+        }
+
+        /* ====== 页面切换 ====== */
+        .page {
+            display: none;
+            animation: fadeUp 0.4s ease;
+        }
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ====== 首页 ====== */
+        .home-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #2c2a28;
+            text-align: center;
+            line-height: 1.3;
+            margin-top: 8px;
+        }
+        .home-title small {
+            display: block;
+            font-size: 14px;
+            font-weight: 400;
+            color: #b8a69b;
+            margin-top: 6px;
+            letter-spacing: 1px;
+        }
+        .home-quote {
+            background: #f8f5f2;
+            border-radius: 16px;
+            padding: 20px 20px 18px;
+            margin: 24px 0 28px;
+            border-left: 4px solid #d4c5ba;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #4a4340;
+        }
+        .home-quote .author {
+            display: block;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #b8a69b;
+            text-align: right;
+        }
+        .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #2c2a28;
+            color: #fff;
+            border: none;
+            border-radius: 60px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 2px;
+        }
+        .btn-primary:active {
+            transform: scale(0.97);
+            background: #1f1d1b;
+        }
+        .btn-primary .emoji {
+            margin-right: 6px;
+        }
+        .home-footer {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 12px;
+            color: #ccc5bf;
+            letter-spacing: 0.5px;
+        }
+
+        /* ====== 做题页 ====== */
+        .progress-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: #eee9e5;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-bar .fill {
+            height: 100%;
+            width: 0%;
+            background: #2c2a28;
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+        .progress-text {
+            font-size: 14px;
+            color: #b8a69b;
+            font-weight: 500;
+            min-width: 44px;
+            text-align: right;
+        }
+        .question-number {
+            font-size: 13px;
+            color: #b8a69b;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .question-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c2a28;
+            line-height: 1.5;
+            margin-bottom: 24px;
+            min-height: 60px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-btn {
+            padding: 16px 20px;
+            background: #f8f5f2;
+            border: 2px solid transparent;
+            border-radius: 16px;
+            font-size: 16px;
+            color: #2c2a28;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-align: left;
+            line-height: 1.4;
+        }
+        .option-btn:active {
+            transform: scale(0.98);
+        }
+        .option-btn.selected {
+            border-color: #2c2a28;
+            background: #f0ebe6;
+        }
+        .option-btn .tag {
+            display: inline-block;
+            font-size: 12px;
+            color: #b8a69b;
+            margin-right: 10px;
+            font-weight: 400;
+        }
+
+        /* ====== 结果页 ====== */
+        .result-badge {
+            text-align: center;
+            padding: 12px 0 8px;
+        }
+        .result-badge .icon {
+            font-size: 48px;
+        }
+        .result-badge .title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2c2a28;
+            margin-top: 4px;
+        }
+        .result-badge .sub {
+            font-size: 14px;
+            color: #b8a69b;
+            margin-top: 2px;
+        }
+        .result-card {
+            background: #f8f5f2;
+            border-radius: 20px;
+            padding: 20px 20px 18px;
+            margin: 20px 0 16px;
+        }
+        .result-card .label {
+            font-size: 12px;
+            color: #b8a69b;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .result-card .value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c2a28;
+            margin-top: 2px;
+        }
+        .result-card .desc {
+            font-size: 14px;
+            color: #4a4340;
+            line-height: 1.6;
+            margin-top: 6px;
+        }
+        .result-suggestion {
+            background: #f0ebe6;
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin: 16px 0 20px;
+        }
+        .result-suggestion .label {
+            font-size: 12px;
+            color: #b8a69b;
+            letter-spacing: 1px;
+        }
+        .result-suggestion .text {
+            font-size: 15px;
+            color: #2c2a28;
+            margin-top: 4px;
+            line-height: 1.6;
+        }
+
+        /* ====== 名片预览（Canvas 展示区） ====== */
+        .card-preview {
+            margin: 20px 0 16px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.10);
+            background: #fff;
+        }
+        .card-preview canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        .btn-secondary {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: #f0ebe6;
+            color: #2c2a28;
+            border: none;
+            border-radius: 60px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 1px;
+        }
+        .btn-secondary:active {
+            transform: scale(0.97);
+            background: #e5ddd6;
+        }
+        .btn-secondary .emoji {
+            margin-right: 6px;
+        }
+        .btn-outline {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            color: #b8a69b;
+            border: 2px solid #eee9e5;
+            border-radius: 60px;
+            font-size: 15px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+        .btn-outline:active {
+            transform: scale(0.97);
+            background: #f8f5f2;
+        }
+
+        /* ====== 工具类 ====== */
+        .mt-8 {
+            margin-top: 8px;
+        }
+        .mt-12 {
+            margin-top: 12px;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="app">
+
+        <!-- ====== 品牌 ====== -->
+        <div class="brand"><span>✦ 北欧第二春 · 优势实验室</span></div>
+
+        <!-- ============================================================ -->
+        <!-- ====== 页面1：首页 ====== -->
+        <!-- ============================================================ -->
+        <div class="page active" id="page-home">
+            <div class="home-title">
+                测出你的「第二春」优势
+                <small>基于丹麦积极心理学理念 · 15分钟自我勘探</small>
+            </div>
+
+            <div class="home-quote">
+                “这辈子你选过工作、选过责任，却很少选清楚‘自己到底是谁’。
+                现在，是时候给自己一份体面的答案了。”
+                <span class="author">—— 北欧第二春 · 优势实验室</span>
+            </div>
+
+            <button class="btn-primary" onclick="startQuiz()">
+                <span class="emoji">🧭</span> 开始自我勘探
+            </button>
+            <div class="home-footer">免费 · 生成专属优势名片 · 可保存分享</div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- ====== 页面2：做题 ====== -->
+        <!-- ============================================================ -->
+        <div class="page" id="page-quiz">
+            <div class="progress-wrap">
+                <div class="progress-bar"><div class="fill" id="progressFill"></div></div>
+                <div class="progress-text" id="progressText">1/15</div>
+            </div>
+
+            <div class="question-number" id="qNumber">第 1 题</div>
+            <div class="question-text" id="qText">加载中...</div>
+
+            <div class="options" id="optionsContainer">
+                <!-- 由 JS 动态生成 -->
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- ====== 页面3：结果 ====== -->
+        <!-- ============================================================ -->
+        <div class="page" id="page-result">
+            <div class="result-badge">
+                <div class="icon" id="resultIcon">🌟</div>
+                <div class="title" id="resultTitle">你的优势标签</div>
+                <div class="sub">基于积极心理学 VIA 模型</div>
+            </div>
+
+            <div class="result-card">
+                <div class="label">🏷️ 核心优势</div>
+                <div class="value" id="resultTag">—</div>
+                <div class="desc" id="resultDesc">—</div>
+            </div>
+
+            <div class="result-suggestion">
+                <div class="label">🧭 建议关注方向</div>
+                <div class="text" id="resultSuggestion">—</div>
+            </div>
+
+            <!-- 名片预览 -->
+            <div class="card-preview">
+                <canvas id="cardCanvas" width="600" height="340"></canvas>
+            </div>
+
+            <button class="btn-secondary" onclick="saveCard()">
+                <span class="emoji">💾</span> 长按图片保存 · 分享朋友圈
+            </button>
+            <button class="btn-outline" onclick="resetQuiz()">
+                🔄 重新测试
+            </button>
+            <div style="text-align:center;margin-top:14px;font-size:12px;color:#ccc5bf;">
+                你的数据仅用于生成报告，不会存储或泄露
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ================================================================
+        //  1. 测评数据（15题，每个维度5题）
+        // ================================================================
+        const QUESTIONS = [{
+            text: '朋友遇到困难时，我总是第一个察觉到他的情绪变化。',
+            options: ['非常符合', '一般符合', '不太符合'],
+            dimension: '共情力'
+        }, {
+            text: '我擅长用语言或文字感染别人，让人产生共鸣。',
+            options: ['非常符合', '一般符合', '不太符合'],
+            dimension: '表达力'
+        }, {
+            text: '我做事干脆利落，想到就去做，不喜欢拖延。',
+            options: ['非常符合', '一般符合', '不太符合'],
+            dimension: '行动力'
+        }, {
+            text: '我很容易站在别人的角度思考问题。',
+            options: ['非常符合', '一般符合', '不太符合'],
+            dimension: '共情力'
+        }, {
+            text: '在人群中我常常是活跃气氛、带动话题的那个人。',
+            options: ['非常符合', '一般符合', '不太符合'],
+            dimension: '表达力'
+        }, {
+            text: '我擅长规划和组织，能把想法落地成行动。',
+            options: ['非常符合', '一般符合', '不太符合'],
+            dimension: '行动力'
+        }, {
+            text: '看到别人难过，我也会忍不住感同身受。',
+            options: ['非常符合', '一般符合', '不太符合'],
+            dimension: '共情力'
+        }, {
+            text: '我经常被人夸“讲东西讲得清楚、好听”。',
+            options: ['非常符合', '一般符合', '不太符合'],
+            dimension: '表达力'
+        }, {
+            text: '我喜欢动手做事，比如手工、整理、维修等。',
+            options: ['非常符合', '一般符合', '不太符合'],
+            dimension: '行动力'
+        }, {
+            text: '我善于倾听，并能给予别人温暖的回馈。',
+            options: ['非常符合', '一般符合', '不太符合'],
+            dimension: '共情力'
+        }, {
+            text: '我享受在镜头前或人前表达自己。',
+            options: ['非常符合', '一般符合', '不太符合'],
+            dimension: '表达力'
+        }, {
+            text: '我是一个行动派，不习惯空想。',
+            options: ['非常符合', '一般符合', '不太符合'],
+            dimension: '行动力'
+        }, {
+            text: '别人愿意向我倾诉心事，觉得我很安全。',
+            options: ['非常符合', '一般符合', '不太符合'],
+            dimension: '共情力'
+        }, {
+            text: '我觉得自己天生适合做与“传播、教学”相关的事。',
+            options: ['非常符合', '一般符合', '不太符合'],
+            dimension: '表达力'
+        }, {
+            text: '我享受带领团队或组织活动的过程。',
+            options: ['非常符合', '一般符合', '不太符合'],
+            dimension: '行动力'
+        }];
+
+        // ================================================================
+        //  2. 维度 → 结果映射
+        // ================================================================
+        const RESULT_MAP = {
+            '共情力': {
+                icon: '🤝',
+                tag: '深度共情力',
+                desc: '你天生善于感知他人情绪，拥有温暖而包容的能量场。在AI时代，这种“人与人之间的真实连接”是最稀缺、最不可替代的能力。',
+                suggestion: '社区读书会领读员 · 银发陪诊师 · 心理热线志愿者 · 倾听陪伴服务'
+            },
+            '表达力': {
+                icon: '🎙️',
+                tag: '表达感染力',
+                desc: '你拥有用语言、声音或文字触动人心的天赋。AI可以生成内容，但无法替代你独特的个人魅力与真诚表达带来的信任感。',
+                suggestion: '短视频口播博主 · 播音/配音 · 故事分享会主讲 · 兴趣课程讲师'
+            },
+            '行动力': {
+                icon: '🚀',
+                tag: '行动执行力',
+                desc: '你是把想法变成现实的人。在AI时代，行动力是“知道”与“做到”之间最关键的桥梁，你的执行力就是你的核心竞争力。',
+                suggestion: '户外活动领队 · 手工/园艺助教 · 社区活动组织者 · 创业实践导师'
+            }
+        };
+
+        // ================================================================
+        //  3. 状态
+        // ================================================================
+        let currentQuestion = 0;
+        let scores = { '共情力': 0, '表达力': 0, '行动力': 0 };
+        let answers = [];
+
+        // ================================================================
+        //  4. DOM 引用
+        // ================================================================
+        const $ = id => document.getElementById(id);
+        const pageHome = $('page-home');
+        const pageQuiz = $('page-quiz');
+        const pageResult = $('page-result');
+        const qText = $('qText');
+        const qNumber = $('qNumber');
+        const optionsContainer = $('optionsContainer');
+        const progressFill = $('progressFill');
+        const progressText = $('progressText');
+
+        // ================================================================
+        //  5. 核心函数
+        // ================================================================
+
+        // 5a. 开始
+        function startQuiz() {
+            currentQuestion = 0;
+            scores = { '共情力': 0, '表达力': 0, '行动力': 0 };
+            answers = [];
+            pageHome.classList.remove('active');
+            pageQuiz.classList.add('active');
+            renderQuestion();
+        }
+
+        // 5b. 渲染题目
+        function renderQuestion() {
+            const q = QUESTIONS[currentQuestion];
+            qNumber.textContent = `第 ${currentQuestion + 1} 题`;
+            qText.textContent = q.text;
+
+            // 进度
+            const pct = ((currentQuestion) / QUESTIONS.length * 100);
+            progressFill.style.width = pct + '%';
+            progressText.textContent = `${currentQuestion + 1}/${QUESTIONS.length}`;
+
+            // 选项
+            optionsContainer.innerHTML = '';
+            const labels = ['A', 'B', 'C'];
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `<span class="tag">${labels[idx]}</span> ${opt}`;
+                btn.dataset.index = idx;
+                btn.onclick = () => selectOption(idx);
+                // 如果已经选过，回显
+                if (answers[currentQuestion] === idx) {
+                    btn.classList.add('selected');
+                }
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        // 5c. 选择选项
+        function selectOption(idx) {
+            // 保存答案
+            answers[currentQuestion] = idx;
+            // 高亮
+            const btns = optionsContainer.querySelectorAll('.option-btn');
+            btns.forEach((b, i) => b.classList.toggle('selected', i === idx));
+
+            // 记分：选A得3分，B得2分，C得1分
+            const q = QUESTIONS[currentQuestion];
+            const score = 3 - idx; // idx=0→3, idx=1→2, idx=2→1
+            scores[q.dimension] = (scores[q.dimension] || 0) + score;
+
+            // 自动进入下一题或跳转结果
+            setTimeout(() => {
+                if (currentQuestion < QUESTIONS.length - 1) {
+                    currentQuestion++;
+                    renderQuestion();
+                } else {
+                    showResult();
+                }
+            }, 280);
+        }
+
+        // ================================================================
+        //  6. 结果页
+        // ================================================================
+        function showResult() {
+            pageQuiz.classList.remove('active');
+            pageResult.classList.add('active');
+
+            // 找到最高分维度
+            let maxDim = '共情力';
+            let maxScore = -1;
+            for (const [dim, score] of Object.entries(scores)) {
+                if (score > maxScore) {
+                    maxScore = score;
+                    maxDim = dim;
+                }
+            }
+
+            const data = RESULT_MAP[maxDim];
+            $('resultIcon').textContent = data.icon;
+            $('resultTag').textContent = data.tag;
+            $('resultDesc').textContent = data.desc;
+            $('resultSuggestion').textContent = data.suggestion;
+
+            // 生成名片
+            drawCard(maxDim, data);
+        }
+
+        // ================================================================
+        //  7. Canvas 生成优势名片
+        // ================================================================
+        function drawCard(dim, data) {
+            const canvas = $('cardCanvas');
+            const ctx = canvas.getContext('2d');
+            const w = 600,
+                h = 340;
+
+            // 背景渐变（北欧极简风）
+            const grad = ctx.createLinearGradient(0, 0, w, h);
+            grad.addColorStop(0, '#f8f5f2');
+            grad.addColorStop(1, '#ede8e2');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, w, h);
+
+            // 边框装饰
+            ctx.strokeStyle = '#d4c5ba';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(20, 20, w - 40, h - 40);
+
+            // 左上角标签
+            ctx.fillStyle = '#b8a69b';
+            ctx.font = '11px "PingFang SC", sans-serif';
+            ctx.fillText('✦ 北欧第二春 · 优势认证', 40, 52);
+
+            // 大图标
+            ctx.font = '48px sans-serif';
+            ctx.fillText(data.icon, 40, 130);
+
+            // 优势标签（大号）
+            ctx.fillStyle = '#2c2a28';
+            ctx.font = 'bold 32px "PingFang SC", sans-serif';
+            ctx.fillText(data.tag, 100, 120);
+
+            // 认证编号（随机生成）
+            const serial = 'DK' + String(Math.floor(100000 + Math.random() * 900000));
+            ctx.fillStyle = '#b8a69b';
+            ctx.font = '13px "PingFang SC", sans-serif';
+            ctx.fillText('认证编号：' + serial, 40, 168);
+
+            // 分隔线
+            ctx.strokeStyle = '#e0d7d0';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(40, 188);
+            ctx.lineTo(w - 40, 188);
+            ctx.stroke();
+
+            // 建议方向
+            ctx.fillStyle = '#4a4340';
+            ctx.font = '14px "PingFang SC", sans-serif';
+            ctx.fillText('🧭 建议方向', 40, 218);
+            ctx.fillStyle = '#2c2a28';
+            ctx.font = '15px "PingFang SC", sans-serif';
+            // 换行处理（最长20字左右折行）
+            const sug = data.suggestion;
+            const lines = sug.split('·').filter(s => s.trim());
+            let y = 242;
+            lines.forEach((line, i) => {
+                if (i < 3) {
+                    ctx.fillText('· ' + line.trim(), 40, y + i * 26);
+                }
+            });
+
+            // 底部小字
+            ctx.fillStyle = '#ccc5bf';
+            ctx.font = '10px "PingFang SC", sans-serif';
+            ctx.fillText('基于积极心理学 VIA 模型 · 测评结果仅供参考', 40, h - 30);
+
+            // 右下角编号
+            ctx.fillStyle = '#d4c5ba';
+            ctx.font = '10px sans-serif';
+            ctx.fillText('NSPC·' + serial, w - 140, h - 30);
+
+            // 保存序列号到canvas上，方便下载时命名
+            canvas.dataset.serial = serial;
+        }
+
+        // ================================================================
+        //  8. 保存名片（长按/点击保存）
+        // ================================================================
+        function saveCard() {
+            const canvas = $('cardCanvas');
+            // 自动下载（手机端会提示保存图片）
+            const link = document.createElement('a');
+            link.download = `优势名片_${canvas.dataset.serial || 'DK' + Date.now()}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        // ================================================================
+        //  9. 重新测试
+        // ================================================================
+        function resetQuiz() {
+            pageResult.classList.remove('active');
+            pageHome.classList.add('active');
+            currentQuestion = 0;
+            scores = { '共情力': 0, '表达力': 0, '行动力': 0 };
+            answers = [];
+            progressFill.style.width = '0%';
+        }
+
+        // ================================================================
+        //  10. 暴露全局（供HTML onclick调用）
+        // ================================================================
+        window.startQuiz = startQuiz;
+        window.saveCard = saveCard;
+        window.resetQuiz = resetQuiz;
+    </script>
+
+</body>
+</html>
