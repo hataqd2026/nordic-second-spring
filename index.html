@@ -1,72 +1,51 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>北欧第二春 · 积极抗衰优势测评</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北欧第二春 · 测试版</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         body {
-            font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            font-family: -apple-system, 'PingFang SC', sans-serif;
             background: #f5f2ed;
-            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 16px;
+            min-height: 100vh;
+            padding: 20px;
+            margin: 0;
         }
         .container {
-            max-width: 420px;
+            max-width: 400px;
             width: 100%;
-            background: #ffffff;
+            background: #fff;
             border-radius: 32px;
+            padding: 30px 24px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
-            padding: 28px 24px 36px;
-            position: relative;
-            transition: all 0.3s;
         }
         .brand {
-            font-size: 11px;
-            letter-spacing: 2px;
-            color: #b8a69b;
-            text-transform: uppercase;
             text-align: center;
-            margin-bottom: 6px;
-            font-weight: 400;
+            font-size: 12px;
+            color: #b8a69b;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
         }
         .brand span {
             background: #f0ebe6;
-            padding: 2px 12px;
+            padding: 2px 14px;
             border-radius: 20px;
         }
         .page {
             display: none;
-            animation: fadeUp 0.4s ease;
         }
         .page.active {
             display: block;
         }
-        @keyframes fadeUp {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
         .home-title {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 700;
-            color: #2c2a28;
             text-align: center;
-            line-height: 1.3;
-            margin-top: 8px;
+            color: #2c2a28;
         }
         .home-title small {
             display: block;
@@ -74,37 +53,6 @@
             font-weight: 400;
             color: #b8a69b;
             margin-top: 6px;
-            letter-spacing: 1px;
-        }
-        .home-quote {
-            background: #f8f5f2;
-            border-radius: 16px;
-            padding: 20px 20px 18px;
-            margin: 24px 0 28px;
-            border-left: 4px solid #d4c5ba;
-            font-size: 14px;
-            line-height: 1.8;
-            color: #4a4340;
-        }
-        .home-quote .author {
-            display: block;
-            margin-top: 10px;
-            font-size: 13px;
-            color: #b8a69b;
-            text-align: right;
-        }
-        .home-theory {
-            background: #faf8f7;
-            border-radius: 12px;
-            padding: 14px 16px;
-            margin-bottom: 22px;
-            border: 1px solid #eee9e5;
-            font-size: 12px;
-            color: #8a7e78;
-            line-height: 1.7;
-        }
-        .home-theory strong {
-            color: #2c2a28;
         }
         .btn-primary {
             display: block;
@@ -117,984 +65,213 @@
             font-size: 18px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
-            letter-spacing: 2px;
+            margin-top: 24px;
         }
         .btn-primary:active {
             transform: scale(0.97);
-            background: #1f1d1b;
-        }
-        .btn-primary .emoji {
-            margin-right: 6px;
-        }
-        .home-footer {
-            text-align: center;
-            margin-top: 18px;
-            font-size: 12px;
-            color: #ccc5bf;
-            letter-spacing: 0.5px;
-        }
-        .progress-wrap {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-        .progress-bar {
-            flex: 1;
-            height: 4px;
-            background: #eee9e5;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .progress-bar .fill {
-            height: 100%;
-            width: 0%;
-            background: #2c2a28;
-            border-radius: 4px;
-            transition: width 0.3s;
-        }
-        .progress-text {
-            font-size: 14px;
-            color: #b8a69b;
-            font-weight: 500;
-            min-width: 44px;
-            text-align: right;
-        }
-        .question-nav {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-        .question-nav button {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 40px;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .question-nav button:active {
-            transform: scale(0.97);
-        }
-        .btn-prev {
-            background: #f0ebe6;
-            color: #4a4340;
-        }
-        .btn-prev:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-        .btn-next {
-            background: #2c2a28;
-            color: #fff;
-        }
-        .btn-next:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-        .question-number {
-            font-size: 13px;
-            color: #b8a69b;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
-        }
-        .question-dimension {
-            display: inline-block;
-            font-size: 11px;
-            color: #fff;
-            background: #b8a69b;
-            padding: 2px 12px;
-            border-radius: 20px;
-            margin-bottom: 10px;
-            letter-spacing: 0.5px;
         }
         .question-text {
             font-size: 18px;
             font-weight: 500;
             color: #2c2a28;
-            line-height: 1.6;
-            margin-bottom: 24px;
-            min-height: 60px;
-        }
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            margin: 16px 0;
         }
         .option-btn {
-            padding: 16px 20px;
+            display: block;
+            width: 100%;
+            padding: 14px 18px;
             background: #f8f5f2;
             border: 2px solid transparent;
-            border-radius: 16px;
+            border-radius: 14px;
             font-size: 16px;
-            color: #2c2a28;
             cursor: pointer;
-            transition: all 0.15s;
+            margin-bottom: 10px;
             text-align: left;
-            line-height: 1.4;
-        }
-        .option-btn:active {
-            transform: scale(0.98);
         }
         .option-btn.selected {
             border-color: #2c2a28;
             background: #f0ebe6;
         }
-        .option-btn .tag {
-            display: inline-block;
-            font-size: 12px;
-            color: #b8a69b;
-            margin-right: 10px;
-            font-weight: 400;
-        }
-        .result-badge {
+        .result-box {
+            background: #f8f5f2;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 16px 0;
             text-align: center;
-            padding: 12px 0 8px;
         }
-        .result-badge .icon {
-            font-size: 48px;
-        }
-        .result-badge .title {
-            font-size: 22px;
+        .result-box .tag {
+            font-size: 20px;
             font-weight: 700;
             color: #2c2a28;
-            margin-top: 4px;
         }
-        .result-badge .sub {
-            font-size: 14px;
-            color: #b8a69b;
-            margin-top: 2px;
+        .hidden {
+            display: none !important;
         }
-        .result-card {
-            background: #f8f5f2;
-            border-radius: 20px;
-            padding: 20px 20px 18px;
-            margin: 20px 0 16px;
+        .mt-12 {
+            margin-top: 12px;
         }
-        .result-card .label {
-            font-size: 12px;
-            color: #b8a69b;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        .result-card .value {
-            font-size: 18px;
-            font-weight: 600;
-            color: #2c2a28;
-            margin-top: 2px;
-        }
-        .result-card .desc {
-            font-size: 14px;
-            color: #4a4340;
-            line-height: 1.6;
-            margin-top: 6px;
-        }
-        .result-suggestion {
-            background: #f0ebe6;
-            border-radius: 16px;
-            padding: 16px 20px;
-            margin: 16px 0 20px;
-        }
-        .result-suggestion .label {
-            font-size: 12px;
-            color: #b8a69b;
-            letter-spacing: 1px;
-        }
-        .result-suggestion .text {
-            font-size: 15px;
-            color: #2c2a28;
-            margin-top: 4px;
-            line-height: 1.8;
-            white-space: pre-line;
-        }
-        .result-reference {
-            background: #faf8f7;
-            border-radius: 12px;
-            padding: 14px 16px;
-            margin: 12px 0 16px;
-            border: 1px solid #eee9e5;
-        }
-        .result-reference .label {
-            font-size: 11px;
-            color: #b8a69b;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-        }
-        .result-reference .text {
-            font-size: 12px;
-            color: #8a7e78;
-            line-height: 1.7;
-        }
-        .card-preview {
-            margin: 20px 0 16px;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.10);
-            background: #fff;
-        }
-        .card-preview canvas {
-            display: block;
-            width: 100%;
-            height: auto;
+        .text-center {
+            text-align: center;
         }
         .btn-secondary {
             display: block;
             width: 100%;
             padding: 14px;
             background: #f0ebe6;
-            color: #2c2a28;
             border: none;
             border-radius: 60px;
             font-size: 16px;
-            font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
-            letter-spacing: 1px;
-        }
-        .btn-secondary:active {
-            transform: scale(0.97);
-            background: #e5ddd6;
-        }
-        .btn-secondary .emoji {
-            margin-right: 6px;
-        }
-        .premium-section {
-            margin-top: 24px;
-            padding-top: 20px;
-            border-top: 2px solid #f0ebe6;
-        }
-        .premium-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        .premium-header .title {
-            font-size: 17px;
-            font-weight: 700;
-            color: #2c2a28;
-        }
-        .premium-header .price {
-            font-size: 14px;
-            color: #b8a69b;
-            background: #f0ebe6;
-            padding: 4px 14px;
-            border-radius: 20px;
-        }
-        .premium-header .price strong {
-            color: #2c2a28;
-            font-size: 18px;
-        }
-        .premium-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 12px 0 16px;
-        }
-        .premium-card {
-            background: #faf8f7;
-            border-radius: 14px;
-            padding: 14px 14px 12px;
-            border: 1px solid #eee9e5;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        .premium-card .emoji {
-            font-size: 20px;
-        }
-        .premium-card .name {
-            font-size: 13px;
-            font-weight: 600;
-            color: #2c2a28;
-            margin-top: 2px;
-        }
-        .premium-card .count {
-            font-size: 11px;
-            color: #b8a69b;
-            margin-top: 2px;
-        }
-        .premium-card.locked {
-            opacity: 0.5;
-            filter: grayscale(0.3);
-        }
-        .premium-card.locked .count::after {
-            content: ' 🔒';
-        }
-        .premium-card.unlocked {
-            border-color: #2c2a28;
-            background: #f8f5f2;
-        }
-        .premium-card.unlocked .count::after {
-            content: ' ✅';
-            color: #2c2a28;
-        }
-        .btn-premium {
-            display: block;
-            width: 100%;
-            padding: 16px;
-            background: #2c2a28;
-            color: #fff;
-            border: none;
-            border-radius: 60px;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            letter-spacing: 1px;
-        }
-        .btn-premium:active {
-            transform: scale(0.97);
-            background: #1f1d1b;
-        }
-        .btn-premium .emoji {
-            margin-right: 6px;
-        }
-        .btn-premium:disabled {
-            opacity: 0.5;
-            cursor: default;
-        }
-        .btn-premium.unlocked-btn {
-            background: #d4c5ba;
-            cursor: default;
-        }
-        .unlocked-content {
-            margin-top: 16px;
-            animation: fadeUp 0.4s ease;
-        }
-        .unlocked-content .section {
-            margin-bottom: 14px;
-            background: #faf8f7;
-            border-radius: 14px;
-            padding: 14px 16px;
-            border: 1px solid #eee9e5;
-        }
-        .unlocked-content .section .label {
-            font-size: 13px;
-            font-weight: 600;
-            color: #2c2a28;
-            margin-bottom: 6px;
-        }
-        .unlocked-content .section .item {
-            font-size: 14px;
-            color: #4a4340;
-            padding: 5px 0;
-            border-bottom: 1px solid #f0ebe6;
-            line-height: 1.5;
-        }
-        .unlocked-content .section .item:last-child {
-            border-bottom: none;
-        }
-        .member-code {
-            text-align: center;
-            font-size: 13px;
-            color: #b8a69b;
-            margin: 12px 0 8px;
-            padding: 10px;
-            background: #f8f5f2;
-            border-radius: 12px;
-        }
-        .member-code strong {
-            color: #2c2a28;
-            font-size: 16px;
-            letter-spacing: 2px;
-        }
-        .btn-outline {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            background: transparent;
-            color: #b8a69b;
-            border: 2px solid #eee9e5;
-            border-radius: 60px;
-            font-size: 15px;
-            font-weight: 400;
-            cursor: pointer;
-            transition: all 0.2s;
             margin-top: 10px;
-            letter-spacing: 1px;
-        }
-        .btn-outline:active {
-            transform: scale(0.97);
-            background: #f8f5f2;
-        }
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-        .modal-box {
-            background: #fff;
-            max-width: 340px;
-            width: 90%;
-            border-radius: 24px;
-            padding: 32px 24px 24px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            animation: scaleIn 0.3s ease;
-        }
-        @keyframes scaleIn {
-            0% {
-                transform: scale(0.9);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-        .modal-box .icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-        }
-        .modal-box h3 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #2c2a28;
-            margin-bottom: 8px;
-        }
-        .modal-box p {
-            font-size: 14px;
-            color: #4a4340;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        .modal-box .btn-modal {
-            padding: 12px 40px;
-            background: #2c2a28;
-            color: #fff;
-            border: none;
-            border-radius: 40px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .modal-box .btn-modal:active {
-            transform: scale(0.97);
-        }
-        .hidden {
-            display: none !important;
-        }
-        .text-center {
-            text-align: center;
         }
     </style>
 </head>
 <body>
 
-    <div class="container" id="app">
+<div class="container">
+    <div class="brand"><span>✦ 北欧第二春 · 测试版</span></div>
 
-        <div class="brand"><span>✦ 北欧第二春 · 积极抗衰实验室</span></div>
-
-        <!-- 首页 -->
-        <div class="page active" id="page-home">
-            <div class="home-title">
-                测出你的「积极抗衰」优势
-                <small>30道题 · 约10-15分钟 · 发现你的心理与社会优势</small>
-            </div>
-            <div class="home-quote">
-                "活到这个岁数，你选过责任、选过妥协，却很少选清楚'自己到底是谁'。
-                积极抗衰，从重新认识自己开始。"
-                <span class="author">—— 北欧第二春 · 积极抗衰实验室</span>
-            </div>
-            <div class="home-theory">
-                <strong>📄 本工具的理论框架</strong> 参考了北京大学教育学院2025年发表的《老年教育背景下积极老龄化量表的编制与测量》研究成果，聚焦其中的"社会参与""心理智慧""老年学习"三个心理—社会维度。
-            </div>
-            <div class="home-time"><span>⏱️ 约10-15分钟 · 建议静心完成</span></div>
-            <button class="btn-primary" onclick="startQuiz()">
-                <span class="emoji">🧭</span> 开始自我勘探
-            </button>
-            <div class="home-footer">免费 · 生成专属优势名片 · 可保存分享</div>
+    <!-- 首页 -->
+    <div class="page active" id="page-home">
+        <div class="home-title">
+            测出你的优势
+            <small>3道题 · 1分钟</small>
         </div>
-
-        <!-- 做题页 -->
-        <div class="page" id="page-quiz">
-            <div class="progress-wrap">
-                <div class="progress-bar"><div class="fill" id="progressFill"></div></div>
-                <div class="progress-text" id="progressText">1/30</div>
-            </div>
-            <div class="question-number" id="qNumber">第 1 题</div>
-            <div class="question-dimension" id="qDimension">共情力</div>
-            <div class="question-text" id="qText">加载中...</div>
-            <div class="options" id="optionsContainer"></div>
-            <div class="question-nav">
-                <button class="btn-prev" id="btnPrev" onclick="goPrev()">← 上一题</button>
-                <button class="btn-next" id="btnNext" onclick="goNext()">下一题 →</button>
-            </div>
-        </div>
-
-        <!-- 结果页 -->
-        <div class="page" id="page-result">
-            <div class="result-badge">
-                <div class="icon" id="resultIcon">🌟</div>
-                <div class="title" id="resultTitle">你的优势标签</div>
-                <div class="sub">基于积极抗衰研究框架 · 三大维度</div>
-            </div>
-            <div class="result-card">
-                <div class="label">🏷️ 核心优势</div>
-                <div class="value" id="resultTag">—</div>
-                <div class="desc" id="resultDesc">—</div>
-            </div>
-            <div class="result-suggestion">
-                <div class="label">🧭 积极抗衰方向建议</div>
-                <div class="text" id="resultSuggestion">—</div>
-            </div>
-            <div class="result-reference">
-                <div class="label">📄 学术参考</div>
-                <div class="text" id="resultReference">—</div>
-            </div>
-            <div class="card-preview">
-                <canvas id="cardCanvas" width="600" height="400"></canvas>
-            </div>
-            <button class="btn-secondary" onclick="saveCard()">
-                <span class="emoji">💾</span> 长按图片保存 · 分享朋友圈
-            </button>
-
-            <!-- 增值服务 -->
-            <div class="premium-section" id="premiumSection">
-                <div class="premium-header">
-                    <span class="title">💎 你的「第二春」增值服务包</span>
-                    <span class="price"><strong>0.9</strong> 元永久解锁</span>
-                </div>
-                <div class="premium-grid" id="premiumGrid"></div>
-                <button class="btn-premium" id="btnUnlock" onclick="handleUnlock()">
-                    <span class="emoji">💎</span> 0.9克拉 预约解锁全部
-                </button>
-                <div class="member-code">
-                    会员码：<strong id="memberCode">—</strong>
-                    <span id="unlockStatus" style="margin-left:8px;font-size:12px;color:#b8a69b;"></span>
-                </div>
-                <div id="unlockedContent" class="unlocked-content hidden"></div>
-            </div>
-
-            <button class="btn-outline" onclick="resetQuiz()">🔄 重新测试</button>
-            <div style="text-align:center;margin-top:14px;font-size:12px;color:#ccc5bf;">
-                你的数据仅用于生成报告，不会存储或泄露
-            </div>
-        </div>
-
-        <!-- 弹窗 -->
-        <div class="modal-overlay hidden" id="modalOverlay" onclick="closeModal(event)">
-            <div class="modal-box" onclick="event.stopPropagation()">
-                <div class="icon">🎉</div>
-                <h3 id="modalTitle">预约成功！</h3>
-                <p id="modalDesc">感谢你的信任！「第二春」增值服务包上线后，我们会第一时间通知你。</p>
-                <button class="btn-modal" onclick="closeModal()">我知道了</button>
-            </div>
-        </div>
-
+        <button class="btn-primary" onclick="startQuiz()">开始测试</button>
     </div>
 
-    <script>
-        // ===== 30道题 =====
-        const QUESTIONS = [
-            { text: '朋友或家人心情不好的时候，我不用对方开口就能感觉到', dimension: '共情力' },
-            { text: '我能理解别人没说出来的难处，哪怕他们嘴上说"没事"', dimension: '共情力' },
-            { text: '看到别人难过，我心里也会跟着不好受，不是客套', dimension: '共情力' },
-            { text: '身边不少人愿意跟我聊心事，说跟我说话踏实', dimension: '共情力' },
-            { text: '一群人聊天的时候，我总能照顾到话最少的那个人', dimension: '共情力' },
-            { text: '我跟不同年龄的人都聊得来，不管对方二三十还是七八十', dimension: '共情力' },
-            { text: '我经常主动给家里人打电话、发消息，惦记着他们', dimension: '共情力' },
-            { text: '如果儿子女儿遇到难事，我能做到先听他/她说，而不是急着给主意', dimension: '共情力' },
-            { text: '身边的朋友觉得我"懂他们"，有什么事第一个想到找我聊聊', dimension: '共情力' },
-            { text: '活到这个岁数，我觉得自己比年轻时候更能理解别人的不容易', dimension: '共情力' },
-            { text: '我说话的时候，别人愿意听，觉得我说得有意思', dimension: '表达力' },
-            { text: '不管是面对面说话还是打字，我能把事情说得清楚明白', dimension: '表达力' },
-            { text: '人多的场合我不怯场，能带动气氛，大家也不觉得冷场', dimension: '表达力' },
-            { text: '有人夸过我说话好听或者声音听着舒服', dimension: '表达力' },
-            { text: '我对着镜头说话也不紧张，能自然表达', dimension: '表达力' },
-            { text: '我心里攒了不少人生经历，很想讲给别人听听', dimension: '表达力' },
-            { text: '我觉得自己这一辈子的经历，记下来是有价值的', dimension: '表达力' },
-            { text: '不止一个人说过我适合当老师或者当主持人这类工作', dimension: '表达力' },
-            { text: '我在熟人面前或陌生人面前，都能大大方方地分享自己的看法', dimension: '表达力' },
-            { text: '我乐于把自己的经验传给年轻人，觉得这是一件有意义的事', dimension: '表达力' },
-            { text: '想到了什么事，我一般会立刻去做，不习惯拖着', dimension: '行动力' },
-            { text: '我能在脑子里把一件事从想法变成具体步骤，然后一步步做完', dimension: '行动力' },
-            { text: '遇到问题我喜欢动手解决，光想不干我心里不踏实', dimension: '行动力' },
-            { text: '我喜欢干点实际的活儿，比如做饭、收拾家、种花、修修补补', dimension: '行动力' },
-            { text: '组织个聚会或者活动的活，交给我我心里有底', dimension: '行动力' },
-            { text: '有些事我从没做过，但有机会的话我也愿意试试看', dimension: '行动力' },
-            { text: '家里人常说我"闲不住"，老在捣鼓点什么', dimension: '行动力' },
-            { text: '退休之后或者现在比较闲了，我已经在琢磨新的目标了', dimension: '行动力' },
-            { text: '跟光说不动的人相比，我更像一个"干就完了"的人', dimension: '行动力' },
-            { text: '我觉得一个人能不能做成事，关键不是说了多少，是真的去做了', dimension: '行动力' }
-        ];
+    <!-- 做题页 -->
+    <div class="page" id="page-quiz">
+        <div id="qIndex" style="font-size:13px;color:#b8a69b;">第 1/3 题</div>
+        <div class="question-text" id="qText">加载中...</div>
+        <div id="optionsContainer"></div>
+        <div style="display:flex;gap:12px;margin-top:12px;">
+            <button class="btn-secondary" id="btnPrev" onclick="prevQ()" style="flex:1;">上一题</button>
+            <button class="btn-secondary" id="btnNext" onclick="nextQ()" style="flex:1;background:#2c2a28;color:#fff;">下一题</button>
+        </div>
+    </div>
 
-        // ===== 结果映射 =====
-        const RESULT_MAP = {
-            '共情力': {
-                icon: '🤝',
-                tag: '深度共情力 · 社会连接型',
-                desc: '你天生善于感知他人情绪，拥有温暖而包容的能量场。这种"人与人之间的真实连接"是积极抗衰中最核心的心理资源，也是AI时代最不可替代的人类特质。',
-                suggestion: '· 社区读书会领读员\n· 银发陪诊/陪伴服务\n· 心理热线志愿者\n· 家族故事口述采集者',
-                reference: '本维度参考了北京大学教育学院2025年《老年教育背景下积极老龄化量表的编制与测量》中"社会参与"与"心理智慧"维度的研究成果。'
-            },
-            '表达力': {
-                icon: '🎙️',
-                tag: '表达感染力 · 自我实现型',
-                desc: '你拥有用语言、声音或文字触动人心的天赋。积极抗衰中，"自我表达"是维持心理活力的关键通道。',
-                suggestion: '· 短视频口播博主\n· 播音/配音/故事会主讲\n· 兴趣课程讲师\n· 个人回忆录/家族史写作',
-                reference: '本维度参考了北京大学教育学院2025年《老年教育背景下积极老龄化量表的编制与测量》中"心理智慧"与"老年学习"维度的研究成果。'
-            },
-            '行动力': {
-                icon: '🚀',
-                tag: '行动执行力 · 主动应对型',
-                desc: '你是把想法变成现实的人。在积极抗衰中，"行动力"是"知道"与"做到"之间最关键的桥梁。',
-                suggestion: '· 户外活动领队/健身助教\n· 手工/园艺/烹饪教学\n· 社区活动组织者\n· 银发创业/实践导师',
-                reference: '本维度参考了北京大学教育学院2025年《老年教育背景下积极老龄化量表的编制与测量》中"老年学习"与"社会参与"维度的研究成果。'
-            }
-        };
+    <!-- 结果页 -->
+    <div class="page" id="page-result">
+        <div class="result-box">
+            <div style="font-size:40px;" id="rIcon">🌟</div>
+            <div class="tag" id="rTag">你的优势</div>
+            <div style="color:#4a4340;margin-top:6px;" id="rDesc">描述</div>
+        </div>
+        <button class="btn-secondary" onclick="resetQuiz()">重新测试</button>
+    </div>
+</div>
 
-        // ===== 增值服务数据 =====
-        const PREMIUM_DATA = {
-            '共情力': {
-                sideHustle: ['· 银发陪诊师（兼职，时薪60-100元）', '· 社区读书会领读员（按场次付费）', '· 心理热线志愿者（公益+补贴）'],
-                clubs: ['· 南京"花样拾光"退休俱乐部（读书会）', '· 本地老年大学·朗诵班', '· 社区"故事茶馆"线下活动'],
-                social: ['· "50+故事会"同城沙龙（每月一期）', '· 高端茶话会·人生经验分享局'],
-                learning: ['· 喜马拉雅"中老年心灵成长"课程', '· 得到App"人生故事写作"训练营']
-            },
-            '表达力': {
-                sideHustle: ['· 短视频口播博主（50岁+素人案例）', '· 线上故事分享主播（有声平台）', '· 兴趣课程讲师（按课时计费）'],
-                clubs: ['· 南京"年轻族"退休俱乐部（演讲社）', '· 本地老年大学·主持人班', '· 社区"银发演说家"沙龙'],
-                social: ['· "50+脱口秀"开放麦体验', '· 高端演讲俱乐部·银发专场'],
-                learning: ['· 喜马拉雅"中老年表达课"', '· 小宇宙"人生经验播客"制作课']
-            },
-            '行动力': {
-                sideHustle: ['· 户外活动领队（周末兼职）', '· 手工/园艺/烹饪教学（按课时）', '· 社区活动组织者（项目制）'],
-                clubs: ['· 本地老年大学·健身/舞蹈班', '· 社区"银发运动营"', '· 手工/园艺兴趣小组'],
-                social: ['· "50+户外徒步"同城团', '· 中老年摄影采风团（每月一约）'],
-                learning: ['· 线下·适老化健身教练培训', '· 线上·银发创业/实践课程']
-            }
-        };
+<script>
+    // ===== 3道测试题 =====
+    var questions = [
+        { text: '朋友难过时我能感觉到', dim: '共情力' },
+        { text: '我说话别人愿意听', dim: '表达力' },
+        { text: '想到就去做，不拖延', dim: '行动力' }
+    ];
 
-        const PREMIUM_CATEGORIES = [
-            { key: 'sideHustle', emoji: '🎯', name: '副业/发挥余热' },
-            { key: 'clubs', emoji: '🤝', name: '俱乐部/社群' },
-            { key: 'social', emoji: '💑', name: '社交/伴侣' },
-            { key: 'learning', emoji: '📚', name: '学习/提升' }
-        ];
+    var resultMap = {
+        '共情力': { icon: '🤝', tag: '共情力', desc: '你善于感知他人情绪' },
+        '表达力': { icon: '🎙️', tag: '表达力', desc: '你擅长表达自己' },
+        '行动力': { icon: '🚀', tag: '行动力', desc: '你执行力很强' }
+    };
 
-        // ===== 状态 =====
-        let currentQuestion = 0;
-        let scores = { '共情力': 0, '表达力': 0, '行动力': 0 };
-        let answers = [];
-        let memberCode = '';
-        let isUnlocked = false;
-        let userDimension = '';
+    var cur = 0;
+    var answers = [];
+    var scores = { '共情力': 0, '表达力': 0, '行动力': 0 };
 
-        // ===== DOM 引用 =====
-        const $ = id => document.getElementById(id);
+    function $(id) { return document.getElementById(id); }
 
-        // ===== 开始测评 =====
-        function startQuiz() {
-            currentQuestion = 0;
-            scores = { '共情力': 0, '表达力': 0, '行动力': 0 };
-            answers = [];
-            $('page-home').classList.remove('active');
-            $('page-quiz').classList.add('active');
-            renderQuestion();
+    function startQuiz() {
+        cur = 0;
+        answers = [];
+        scores = { '共情力': 0, '表达力': 0, '行动力': 0 };
+        $('page-home').classList.remove('active');
+        $('page-quiz').classList.add('active');
+        render();
+    }
+
+    function render() {
+        var q = questions[cur];
+        $('qIndex').textContent = '第 ' + (cur + 1) + '/3 题';
+        $('qText').textContent = q.text;
+        $('btnPrev').disabled = (cur === 0);
+
+        var container = $('optionsContainer');
+        container.innerHTML = '';
+        var opts = ['非常符合', '一般符合', '不太符合'];
+        opts.forEach(function(text, idx) {
+            var btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.textContent = text;
+            if (answers[cur] === idx) btn.classList.add('selected');
+            btn.onclick = function() { selectOption(idx); };
+            container.appendChild(btn);
+        });
+
+        if (cur === questions.length - 1) {
+            $('btnNext').textContent = '查看结果';
+        } else {
+            $('btnNext').textContent = '下一题 →';
         }
+        $('btnNext').disabled = (answers[cur] === undefined);
+    }
 
-        // ===== 渲染题目 =====
-        function renderQuestion() {
-            const q = QUESTIONS[currentQuestion];
-            $('qNumber').textContent = '第 ' + (currentQuestion + 1) + ' 题';
-            $('qDimension').textContent = q.dimension;
-            $('qText').textContent = q.text;
+    function selectOption(idx) {
+        answers[cur] = idx;
+        var q = questions[cur];
+        scores[q.dim] = (scores[q.dim] || 0) + (3 - idx);
 
-            const pct = (currentQuestion / QUESTIONS.length * 100);
-            $('progressFill').style.width = pct + '%';
-            $('progressText').textContent = (currentQuestion + 1) + '/30';
+        var btns = $('optionsContainer').querySelectorAll('.option-btn');
+        btns.forEach(function(b, i) { b.classList.toggle('selected', i === idx); });
+        $('btnNext').disabled = false;
+    }
 
-            $('btnPrev').disabled = (currentQuestion === 0);
-            const hasAnswer = answers[currentQuestion] !== undefined;
-            $('btnNext').disabled = !hasAnswer;
-            if (currentQuestion === QUESTIONS.length - 1) {
-                $('btnNext').textContent = '查看结果 →';
-            } else {
-                $('btnNext').textContent = '下一题 →';
-            }
+    function prevQ() {
+        if (cur > 0) { cur--;
+            render(); }
+    }
 
-            const container = $('optionsContainer');
-            container.innerHTML = '';
-            const labels = ['A', 'B', 'C'];
-            const opts = ['非常符合', '一般符合', '不太符合'];
-            opts.forEach((opt, idx) => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.innerHTML = '<span class="tag">' + labels[idx] + '</span> ' + opt;
-                btn.onclick = function() { selectOption(idx); };
-                if (answers[currentQuestion] === idx) btn.classList.add('selected');
-                container.appendChild(btn);
-            });
+    function nextQ() {
+        if (answers[cur] === undefined) return;
+        if (cur < questions.length - 1) {
+            cur++;
+            render();
+        } else {
+            showResult();
         }
+    }
 
-        // ===== 选择选项 =====
-        function selectOption(idx) {
-            answers[currentQuestion] = idx;
-            const q = QUESTIONS[currentQuestion];
-            scores[q.dimension] = (scores[q.dimension] || 0) + (3 - idx);
+    function showResult() {
+        $('page-quiz').classList.remove('active');
+        $('page-result').classList.add('active');
 
-            const btns = $('optionsContainer').querySelectorAll('.option-btn');
-            btns.forEach(function(b, i) { b.classList.toggle('selected', i === idx); });
-
-            $('btnNext').disabled = false;
+        var maxDim = '共情力';
+        var maxScore = -1;
+        for (var d in scores) {
+            if (scores[d] > maxScore) { maxScore = scores[d];
+                maxDim = d; }
         }
+        var data = resultMap[maxDim];
+        $('rIcon').textContent = data.icon;
+        $('rTag').textContent = data.tag;
+        $('rDesc').textContent = data.desc;
+    }
 
-        // ===== 上一题 =====
-        function goPrev() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                renderQuestion();
-            }
-        }
+    function resetQuiz() {
+        $('page-result').classList.remove('active');
+        $('page-home').classList.add('active');
+        cur = 0;
+        answers = [];
+        scores = { '共情力': 0, '表达力': 0, '行动力': 0 };
+    }
 
-        // ===== 下一题 =====
-        function goNext() {
-            if (answers[currentQuestion] === undefined) return;
-            if (currentQuestion < QUESTIONS.length - 1) {
-                currentQuestion++;
-                renderQuestion();
-            } else {
-                showResult();
-            }
-        }
-
-        // ===== 显示结果 =====
-        function showResult() {
-            $('page-quiz').classList.remove('active');
-            $('page-result').classList.add('active');
-
-            let maxDim = '共情力';
-            let maxScore = -1;
-            for (var dim in scores) {
-                if (scores[dim] > maxScore) { maxScore = scores[dim];
-                    maxDim = dim; }
-            }
-            userDimension = maxDim;
-            const data = RESULT_MAP[maxDim];
-
-            $('resultIcon').textContent = data.icon;
-            $('resultTag').textContent = data.tag;
-            $('resultDesc').textContent = data.desc;
-            $('resultSuggestion').textContent = data.suggestion;
-            $('resultReference').textContent = data.reference;
-
-            // 生成会员码
-            memberCode = 'DK' + String(Math.floor(100000 + Math.random() * 900000));
-            $('memberCode').textContent = memberCode;
-
-            // 检查本地存储
-            var saved = localStorage.getItem('nspc_unlock');
-            if (saved) {
-                try {
-                    var data2 = JSON.parse(saved);
-                    if (data2.code === memberCode || data2.code) {
-                        isUnlocked = true;
-                    }
-                } catch (e) {}
-            }
-            updatePremiumUI();
-            drawCard(maxDim, data);
-        }
-
-        // ===== 更新增值服务UI =====
-        function updatePremiumUI() {
-            var grid = $('premiumGrid');
-            grid.innerHTML = '';
-            var data = PREMIUM_DATA[userDimension] || PREMIUM_DATA['表达力'];
-
-            PREMIUM_CATEGORIES.forEach(function(cat) {
-                var items = data[cat.key] || [];
-                var card = document.createElement('div');
-                card.className = 'premium-card ' + (isUnlocked ? 'unlocked' : 'locked');
-                card.innerHTML = '<div class="emoji">' + cat.emoji + '</div>' +
-                    '<div class="name">' + cat.name + '</div>' +
-                    '<div class="count">' + items.length + ' 条</div>';
-                grid.appendChild(card);
-            });
-
-            var btn = $('btnUnlock');
-            var status = $('unlockStatus');
-            if (isUnlocked) {
-                btn.textContent = '✅ 已解锁';
-                btn.className = 'btn-premium unlocked-btn';
-                btn.disabled = true;
-                status.textContent = '✅ 已解锁';
-                showUnlockedContent();
-            } else {
-                btn.textContent = '💎 0.9克拉 预约解锁全部';
-                btn.className = 'btn-premium';
-                btn.disabled = false;
-                status.textContent = '🔒 未解锁';
-                $('unlockedContent').classList.add('hidden');
-            }
-        }
-
-        // ===== 显示解锁内容 =====
-        function showUnlockedContent() {
-            var container = $('unlockedContent');
-            container.classList.remove('hidden');
-            container.innerHTML = '';
-            var data = PREMIUM_DATA[userDimension] || PREMIUM_DATA['表达力'];
-
-            var map = {
-                'sideHustle': '🎯 副业/发挥余热',
-                'clubs': '🤝 俱乐部/社群',
-                'social': '💑 社交/伴侣',
-                'learning': '📚 学习/提升'
-            };
-
-            PREMIUM_CATEGORIES.forEach(function(cat) {
-                var items = data[cat.key] || [];
-                if (items.length === 0) return;
-                var div = document.createElement('div');
-                div.className = 'section';
-                var html = '<div class="label">' + map[cat.key] + '</div>';
-                items.forEach(function(item) {
-                    html += '<div class="item">' + item + '</div>';
-                });
-                div.innerHTML = html;
-                container.appendChild(div);
-            });
-        }
-
-        // ===== 处理解锁 =====
-        function handleUnlock() {
-            if (isUnlocked) return;
-            // 预约弹窗
-            $('modalOverlay').classList.remove('hidden');
-            $('modalTitle').textContent = '🎉 预约成功！';
-            $('modalDesc').textContent = '你的会员码是 ' + memberCode + '。「第二春」增值服务包上线后，我们会第一时间通知你。';
-            // 标记为已解锁（演示模式）
-            isUnlocked = true;
-            localStorage.setItem('nspc_unlock', JSON.stringify({ code: memberCode, time: Date.now() }));
-            updatePremiumUI();
-        }
-
-        // ===== 关闭弹窗 =====
-        function closeModal(e) {
-            if (e && e.target && !e.target.closest('.modal-box')) {
-                $('modalOverlay').classList.add('hidden');
-                return;
-            }
-            $('modalOverlay').classList.add('hidden');
-        }
-
-        // ===== 绘制名片 =====
-        function drawCard(dim, data) {
-            var canvas = $('cardCanvas');
-            var ctx = canvas.getContext('2d');
-            var w = 600,
-                h = 400;
-
-            var grad = ctx.createLinearGradient(0, 0, w, h);
-            grad.addColorStop(0, '#f8f5f2');
-            grad.addColorStop(1, '#ede8e2');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, w, h);
-
-            ctx.strokeStyle = '#d4c5ba';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(20, 20, w - 40, h - 40);
-
-            ctx.fillStyle = '#b8a69b';
-            ctx.font = '11px "PingFang SC", sans-serif';
-            ctx.fillText('✦ 北欧第二春 · 积极抗衰优势认证', 40, 52);
-
-            ctx.font = '42px sans-serif';
-            ctx.fillText(data.icon, 40, 135);
-
-            ctx.fillStyle = '#2c2a28';
-            ctx.font = 'bold 26px "PingFang SC", sans-serif';
-            var tagWords = data.tag.split('·');
-            ctx.fillText(tagWords[0] + ' ·', 100, 115);
-            ctx.fillStyle = '#4a4340';
-            ctx.font = 'bold 24px "PingFang SC", sans-serif';
-            ctx.fillText(tagWords[1] || '', 100, 148);
-
-            ctx.fillStyle = '#b8a69b';
-            ctx.font = '12px "PingFang SC", sans-serif';
-            ctx.fillText('认证编号：' + memberCode, 40, 178);
-
-            ctx.strokeStyle = '#e0d7d0';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(40, 200);
-            ctx.lineTo(w - 40, 200);
-            ctx.stroke();
-
-            ctx.fillStyle = '#4a4340';
-            ctx.font = '12px "PingFang SC", sans-serif';
-            ctx.fillText('🧭 积极抗衰方向', 40, 228);
-            ctx.fillStyle = '#2c2a28';
-            ctx.font = '14px "PingFang SC", sans-serif';
-            var sugLines = data.suggestion.split('\n').filter(function(s) { return s.trim(); });
-            var y = 254;
-            sugLines.forEach(function(line) {
-                if (y < 330) { ctx.fillText(line.trim(), 40, y);
-                    y += 26; }
-            });
-
-            ctx.fillStyle = '#b8a69b';
-            ctx.font = '9px "PingFang SC", sans-serif';
-            var refShort = data.reference.slice(0, 44) + (data.reference.length > 44 ? '…' : '');
-            ctx.fillText('📄 ' + refShort, 40, h - 32);
-
-            ctx.fillStyle = '#ccc5bf';
-            ctx.font = '9px sans-serif';
-            ctx.fillText('NSPC·' + memberCode, w - 130, h - 32);
-
-            canvas.dataset.serial = memberCode;
-        }
-
-        // ===== 保存名片 =====
-        function saveCard() {
-            var canvas = $('cardCanvas');
-            var link = document.createElement('a');
-            link.download = '优势名片_' + (canvas.dataset.serial || 'DK') + '.png';
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-        }
-
-        // ===== 重新测试 =====
-        function resetQuiz() {
-            $('page-result').classList.remove('active');
-            $('page-home').classList.add('active');
-            currentQuestion = 0;
-            scores = { '共情力': 0, '表达力': 0, '行动力': 0 };
-            answers = [];
-            $('progressFill').style.width = '0%';
-        }
-
-        // 暴露到全局
-        window.startQuiz = startQuiz;
-        window.goPrev = goPrev;
-        window.goNext = goNext;
-        window.saveCard = saveCard;
-        window.resetQuiz = resetQuiz;
-        window.handleUnlock = handleUnlock;
-        window.closeModal = closeModal;
-    </script>
+    // 暴露到全局
+    window.startQuiz = startQuiz;
+    window.prevQ = prevQ;
+    window.nextQ = nextQ;
+    window.resetQuiz = resetQuiz;
+</script>
 
 </body>
 </html>
