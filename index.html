@@ -1,1 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>北欧第二春 · 积极抗衰优势测评</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #e8e4de;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+        .container {
+            max-width: 420px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 20px 60px rgba(26, 42, 58, 0.12);
+            padding: 28px 24px 36px;
+        }
+        .brand {
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #c9a84c;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+        .brand span {
+            background: #f5f2ed;
+            padding: 2px 14px;
+            border-radius: 20px;
+        }
+        .page {
+            display: none;
+            animation: fadeUp 0.4s ease;
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .home-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a2a3a;
+            text-align: center;
+            line-height: 1.3;
+            margin-top: 8px;
+        }
+        .home-title small {
+            display: block;
+            font-size: 14px;
+            font-weight: 400;
+            color: #8a7e78;
+            margin-top: 6px;
+            letter-spacing: 1px;
+        }
+        .home-quote {
+            background: #f7f5f0;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 24px 0 28px;
+            border-left: 4px solid #c9a84c;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #3a3a3a;
+        }
+        .home-quote .author {
+            display: block;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #b8a69b;
+            text-align: right;
+        }
+        .home-theory {
+            background: #f7f5f0;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 22px;
+            border: 1px solid #e8e4de;
+            font-size: 12px;
+            color: #6a6a6a;
+            line-height: 1.7;
+        }
+        .home-theory strong {
+            color: #1a2a3a;
+        }
+        .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #1a2a3a;
+            color: #fff;
+            border: none;
+            border-radius: 60px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 2px;
+            transition: all 0.2s;
+        }
+        .btn-primary:active {
+            transform: scale(0.97);
+            background: #0d1a26;
+        }
+        .btn-primary .emoji {
+            margin-right: 6px;
+        }
+        .home-footer {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 12px;
+            color: #ccc5bf;
+        }
+        .home-time {
+            text-align: center;
+            font-size: 13px;
+            color: #b8a69b;
+            margin-bottom: 18px;
+        }
+        .home-time span {
+            background: #f0ebe6;
+            padding: 4px 14px;
+            border-radius: 20px;
+        }
+        .progress-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: #e8e4de;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-bar .fill {
+            height: 100%;
+            width: 0%;
+            background: #c9a84c;
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+        .progress-text {
+            font-size: 14px;
+            color: #b8a69b;
+            font-weight: 500;
+            min-width: 44px;
+            text-align: right;
+        }
+        .question-nav {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .question-nav button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 40px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .question-nav button:active {
+            transform: scale(0.97);
+        }
+        .btn-prev {
+            background: #f0ebe6;
+            color: #4a4340;
+        }
+        .btn-prev:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        .btn-next {
+            background: #1a2a3a;
+            color: #fff;
+        }
+        .btn-next:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        .question-number {
+            font-size: 13px;
+            color: #b8a69b;
+            margin-bottom: 4px;
+        }
+        .question-dimension {
+            display: inline-block;
+            font-size: 11px;
+            color: #fff;
+            background: #c9a84c;
+            padding: 2px 12px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+        .question-text {
+            font-size: 18px;
+            font-weight: 500;
+            color: #1a2a3a;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            min-height: 60px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-btn {
+            padding: 16px 20px;
+            background: #f7f5f0;
+            border: 2px solid transparent;
+            border-radius: 16px;
+            font-size: 16px;
+            color: #1a2a3a;
+            cursor: pointer;
+            text-align: left;
+            line-height: 1.4;
+            transition: all 0.15s;
+        }
+        .option-btn:active {
+            transform: scale(0.98);
+        }
+        .option-btn.selected {
+            border-color: #c9a84c;
+            background: #f0ebe6;
+        }
+        .option-btn .tag {
+            display: inline-block;
+            font-size: 12px;
+            color: #b8a69b;
+            margin-right: 10px;
+        }
+        .result-badge {
+            text-align: center;
+            padding: 12px 0 8px;
+        }
+        .result-badge .icon {
+            font-size: 48px;
+        }
+        .result-badge .title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a2a3a;
+            margin-top: 4px;
+        }
+        .result-badge .sub {
+            font-size: 14px;
+            color: #b8a69b;
+            margin-top: 2px;
+        }
+        .result-card {
+            background: #f7f5f0;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0 16px;
+        }
+        .result-card .label {
+            font-size: 12px;
+            color: #b8a69b;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .result-card .value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a2a3a;
+            margin-top: 2px;
+        }
+        .result-card .desc {
+            font-size: 14px;
+            color: #4a4340;
+            line-height: 1.6;
+            margin-top: 6px;
+        }
+        .result-suggestion {
+            background: #f7f5f0;
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin: 16px 0 20px;
+        }
+        .result-suggestion .label {
+            font-size: 12px;
+            color: #b8a69b;
+            letter-spacing: 1px;
+        }
+        .result-suggestion .text {
+            font-size: 15px;
+            color: #1a2a3a;
+            margin-top: 4px;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+        .result-reference {
+            background: #f7f5f0;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin: 12px 0 16px;
+            border: 1px solid #e8e4de;
+        }
+        .result-reference .label {
+            font-size: 11px;
+            color: #b8a69b;
+            margin-bottom: 4px;
+        }
+        .result-reference .text {
+            font-size: 12px;
+            color: #6a6a6a;
+            line-height: 1.7;
+        }
+        .card-preview {
+            margin: 20px 0 16px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(26, 42, 58, 0.15);
+            background: #fff;
+        }
+        .card-preview canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        .btn-secondary {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: #f0ebe6;
+            color: #1a2a3a;
+            border: none;
+            border-radius: 60px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+        .btn-secondary:active {
+            transform: scale(0.97);
+            background: #e5ddd6;
+        }
+        .btn-secondary .emoji {
+            margin-right: 6px;
+        }
+        .share-hint {
+            text-align: center;
+            font-size: 12px;
+            color: #b8a69b;
+            margin: 6px 0 12px 0;
+            padding: 8px 12px;
+            background: #f7f5f0;
+            border-radius: 10px;
+            line-height: 1.6;
+        }
+        .share-hint strong {
+            color: #1a2a3a;
+        }
+        .premium-section {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 2px solid #e8e4de;
+        }
+        .premium-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .premium-header .title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #1a2a3a;
+        }
+        .premium-header .price {
+            font-size: 14px;
+            color: #b8a69b;
+            background: #f0ebe6;
+            padding: 4px 14px;
+            border-radius: 20px;
+        }
+        .premium-header .price strong {
+            color: #c9a84c;
+            font-size: 18px;
+        }
+        .premium-note {
+            font-size: 12px;
+            color: #b8a69b;
+            text-align: center;
+            margin: -8px 0 12px 0;
+            padding: 8px 12px;
+            background: #f7f5f0;
+            border-radius: 10px;
+            line-height: 1.6;
+        }
+        .premium-note strong {
+            color: #1a2a3a;
+        }
+        .premium-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 12px 0 16px;
+        }
+        .premium-card {
+            background: #f7f5f0;
+            border-radius: 14px;
+            padding: 14px;
+            border: 1px solid #e8e4de;
+        }
+        .premium-card .emoji {
+            font-size: 20px;
+        }
+        .premium-card .name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a2a3a;
+            margin-top: 2px;
+        }
+        .premium-card .count {
+            font-size: 11px;
+            color: #b8a69b;
+            margin-top: 2px;
+        }
+        .premium-card.locked {
+            opacity: 0.5;
+        }
+        .premium-card.locked .count::after {
+            content: ' 🔒';
+        }
+        .premium-card.unlocked {
+            border-color: #c9a84c;
+            background: #f7f5f0;
+        }
+        .premium-card.unlocked .count::after {
+            content: ' ✅';
+            color: #c9a84c;
+        }
+        .btn-premium {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #c9a84c;
+            color: #fff;
+            border: none;
+            border-radius: 60px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+        .btn-premium:active {
+            transform: scale(0.97);
+            background: #b8963a;
+        }
+        .btn-premium .emoji {
+            margin-right: 6px;
+        }
+        .btn-premium:disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+        .btn-premium.unlocked-btn {
+            background: #8a7e78;
+            cursor: default;
+        }
+        .member-code-box {
+            text-align: center;
+            font-size: 13px;
+            color: #b8a69b;
+            margin: 12px 0 8px;
+            padding: 14px;
+            background: #f7f5f0;
+            border-radius: 12px;
+            border: 1px solid #e8e4de;
+        }
+        .member-code-box .code {
+            display: block;
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a2a3a;
+            letter-spacing: 4px;
+            margin-top: 4px;
+        }
+        .member-code-box .hint {
+            font-size: 12px;
+            color: #b8a69b;
+            margin-top: 6px;
+        }
+        .member-code-box .benefit {
+            font-size: 11px;
+            color: #c9a84c;
+            margin-top: 4px;
+            background: #f5f2ed;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        .unlocked-content {
+            margin-top: 16px;
+            animation: fadeUp 0.4s ease;
+        }
+        .unlocked-content .section {
+            margin-bottom: 14px;
+            background: #f7f5f0;
+            border-radius: 14px;
+            padding: 14px 16px;
+            border: 1px solid #e8e4de;
+        }
+        .unlocked-content .section .label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a2a3a;
+            margin-bottom: 6px;
+        }
+        .unlocked-content .section .item {
+            font-size: 14px;
+            color: #4a4340;
+            padding: 5px 0;
+            border-bottom: 1px solid #e8e4de;
+            line-height: 1.5;
+        }
+        .unlocked-content .section .item:last-child {
+            border-bottom: none;
+        }
+        .btn-outline {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            color: #b8a69b;
+            border: 2px solid #e8e4de;
+            border-radius: 60px;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+        .btn-outline:active {
+            transform: scale(0.97);
+            background: #f7f5f0;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 42, 58, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+        .modal-box {
+            background: #fff;
+            max-width: 340px;
+            width: 90%;
+            border-radius: 24px;
+            padding: 32px 24px 24px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(26, 42, 58, 0.2);
+        }
+        .modal-box .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+        .modal-box h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a2a3a;
+            margin-bottom: 8px;
+        }
+        .modal-box p {
+            font-size: 14px;
+            color: #4a4340;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .modal-box .btn-modal {
+            padding: 12px 40px;
+            background: #1a2a3a;
+            color: #fff;
+            border: none;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .modal-box .btn-modal:active {
+            transform: scale(0.97);
+        }
+        .hidden {
+            display: none !important;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .mt-12 {
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
 
+    <div class="container">
+
+        <div class="brand"><span>✦ 北欧第二春 · 积极抗衰实验室</span></div>
+
+        <!-- 首页 -->
+        <div class="page active" id="page-home">
+            <div class="home-title">
+                测出你的「积极抗衰」优势
+                <small>30道题 · 约10-15分钟</small>
+            </div>
+            <div class="home-quote">
+                "活到这个岁数，你选过责任、选过妥协，却很少选清楚'自己到底是谁'。"
+                <span class="author">—— 北欧第二春 · 积极抗衰实验室</span>
+            </div>
+            <div class="home-theory">
+                <strong>📄 本工具的理论框架</strong> 参考了北京大学教育学院2025年《老年教育背景下积极老龄化量表的编制与测量》的研究成果。
+            </div>
+            <div class="home-time"><span>⏱️ 约10-15分钟 · 建议静心完成</span></div>
+            <button class="btn-primary" onclick="startQuiz()">
+                <span class="emoji">🧭</span> 开始自我勘探
+            </button>
+            <div class="home-footer">免费 · 生成专属优势名片 · 可保存分享</div>
+        </div>
+
+        <!-- 做题页 -->
+        <div class="page" id="page-quiz">
+            <div class="progress-wrap">
+                <div class="progress-bar"><div class="fill" id="progressFill"></div></div>
+                <div class="progress-text" id="progressText">1/30</div>
+            </div>
+            <div class="question-number" id="qNumber">第 1 题</div>
+            <div class="question-dimension" id="qDimension">共情力</div>
+            <div class="question-text" id="qText">加载中...</div>
+            <div class="options" id="optionsContainer"></div>
+            <div class="question-nav">
+                <button class="btn-prev" id="btnPrev" onclick="goPrev()">← 上一题</button>
+                <button class="btn-next" id="btnNext" onclick="goNext()">下一题 →</button>
+            </div>
+        </div>
+
+        <!-- 结果页 -->
+        <div class="page" id="page-result">
+            <div class="result-badge">
+                <div class="icon" id="resultIcon">🌟</div>
+                <div class="title" id="resultTitle">你的优势标签</div>
+                <div class="sub">基于积极抗衰研究框架 · 三大维度</div>
+            </div>
+            <div class="result-card">
+                <div class="label">🏷️ 核心优势</div>
+                <div class="value" id="resultTag">—</div>
+                <div class="desc" id="resultDesc">—</div>
+            </div>
+            <div class="result-suggestion">
+                <div class="label">🧭 积极抗衰方向建议</div>
+                <div class="text" id="resultSuggestion">—</div>
+            </div>
+            <div class="result-reference">
+                <div class="label">📄 学术参考</div>
+                <div class="text" id="resultReference">—</div>
+            </div>
+            <div class="card-preview">
+                <canvas id="cardCanvas" width="600" height="400"></canvas>
+            </div>
+            <button class="btn-secondary" onclick="saveCard()">
+                <span class="emoji">💾</span> 长按图片保存 · 分享朋友圈
+            </button>
+
+            <div class="share-hint">
+                📤 分享名片到朋友圈，<strong>让朋友看到你的专属优势认证</strong> · 一起测测你的"第二春"方向
+            </div>
+
+            <div class="premium-section">
+                <div class="premium-header">
+                    <span class="title">💎 你的「第二春」增值服务包</span>
+                    <span class="price"><strong>0.9</strong> 元永久解锁</span>
+                </div>
+
+                <div class="premium-note">
+                    📌 当前为<strong>预告版</strong>，每个方向展示 3 条示例内容。<br />
+                    正式上线后每个方向扩充至 <strong>10 条以上</strong>，<strong>已解锁用户永久免费更新</strong>。
+                </div>
+
+                <div class="premium-grid" id="premiumGrid"></div>
+
+                <div class="member-code-box">
+                    <span style="font-size:12px;color:#b8a69b;">🎫 你的专属会员码</span>
+                    <span class="code" id="memberCode">—</span>
+                    <div class="hint" id="memberHint">🔒 未解锁 · 0.9元解锁后可查看所有推荐</div>
+                    <div class="benefit">💡 保存此码 = 锁定早鸟身份，后续新功能永久免费升级</div>
+                </div>
+
+                <button class="btn-premium" id="btnUnlock" onclick="handleUnlock()">
+                    <span class="emoji">💎</span> 0.9克拉 预约解锁全部
+                </button>
+                <div id="unlockedContent" class="unlocked-content hidden"></div>
+            </div>
+
+            <button class="btn-outline" onclick="resetQuiz()">🔄 重新测试</button>
+            <div class="text-center" style="margin-top:14px;font-size:12px;color:#ccc5bf;">
+                数据仅用于生成报告，不会存储或泄露
+            </div>
+        </div>
+
+        <!-- 弹窗 -->
+        <div class="modal-overlay hidden" id="modalOverlay" onclick="closeModal(event)">
+            <div class="modal-box" onclick="event.stopPropagation()">
+                <div class="icon">🎉</div>
+                <h3 id="modalTitle">预约成功！</h3>
+                <p id="modalDesc">感谢信任！上线后第一时间通知你。</p>
+                <button class="btn-modal" onclick="closeModal()">我知道了</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
