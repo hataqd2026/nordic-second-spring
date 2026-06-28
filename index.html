@@ -873,4 +873,240 @@
                 var btn = document.createElement('button');
                 btn.className = 'option-btn';
                 btn.innerHTML = '<span class="tag">' + labels[i] + '</span> ' + opts[i];
-                btn.onclick = (
+                btn.onclick = (function(idx) { return function() { selectOption(idx); }; })(i);
+                if (answers[currentQuestion] === i) btn.classList.add('selected');
+                container.appendChild(btn);
+            }
+        }
+
+        function selectOption(idx) {
+            answers[currentQuestion] = idx;
+            var q = QUESTIONS[currentQuestion];
+            scores[q.dimension] = (scores[q.dimension] || 0) + (3 - idx);
+            var btns = $('optionsContainer').querySelectorAll('.option-btn');
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].classList.toggle('selected', i === idx);
+            }
+            $('btnNext').disabled = false;
+        }
+
+        function goPrev() {
+            if (currentQuestion > 0) { currentQuestion--;
+                renderQuestion(); }
+        }
+
+        function goNext() {
+            if (answers[currentQuestion] === undefined) return;
+            if (currentQuestion < QUESTIONS.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        // ========== 结果 ==========
+        function showResult() {
+            $('page-quiz').classList.remove('active');
+            $('page-result').classList.add('active');
+
+            var maxDim = '共情力';
+            var maxScore = -1;
+            for (var d in scores) {
+                if (scores[d] > maxScore) { maxScore = scores[d];
+                    maxDim = d; }
+            }
+            userDimension = maxDim;
+            var data = RESULT_MAP[maxDim];
+
+            $('resultIcon').textContent = data.icon;
+            $('resultTag').textContent = data.tag;
+            $('resultDesc').textContent = data.desc;
+            $('resultSuggestion').textContent = data.suggestion;
+            $('resultReference').textContent = data.reference;
+
+            memberCode = 'DK' + String(Math.floor(100000 + Math.random() * 900000));
+            $('memberCode').textContent = memberCode;
+
+            var saved = localStorage.getItem('nspc_unlock');
+            if (saved) {
+                try { var p = JSON.parse(saved); if (p.code) isUnlocked = true; } catch (e) {}
+            }
+            updatePremiumUI();
+            drawCard(maxDim, data);
+        }
+
+        function updatePremiumUI() {
+            var grid = $('premiumGrid');
+            grid.innerHTML = '';
+            var data = PREMIUM_DATA[userDimension] || PREMIUM_DATA['表达力'];
+
+            for (var c = 0; c < CATEGORIES.length; c++) {
+                var cat = CATEGORIES[c];
+                var items = data[cat.key] || [];
+                var card = document.createElement('div');
+                card.className = 'premium-card ' + (isUnlocked ? 'unlocked' : 'locked');
+                card.innerHTML = '<div class="emoji">' + cat.emoji + '</div>' +
+                    '<div class="name">' + cat.name + '</div>' +
+                    '<div class="count">' + items.length + ' 条</div>';
+                grid.appendChild(card);
+            }
+
+            var btn = $('btnUnlock');
+            var hint = $('memberHint');
+            if (isUnlocked) {
+                btn.textContent = '✅ 已解锁';
+                btn.className = 'btn-premium unlocked-btn';
+                btn.disabled = true;
+                hint.textContent = '✅ 已解锁 · 可查看下方所有推荐内容';
+                showUnlockedContent();
+            } else {
+                btn.textContent = '💎 0.9克拉 预约解锁全部';
+                btn.className = 'btn-premium';
+                btn.disabled = false;
+                hint.textContent = '🔒 未解锁 · 0.9元解锁后可查看所有推荐';
+                $('unlockedContent').classList.add('hidden');
+            }
+        }
+
+        function showUnlockedContent() {
+            var container = $('unlockedContent');
+            container.classList.remove('hidden');
+            container.innerHTML = '';
+            var data = PREMIUM_DATA[userDimension] || PREMIUM_DATA['表达力'];
+            var nameMap = {
+                'sideHustle': '🎯 副业/发挥余热',
+                'clubs': '🤝 俱乐部/社群',
+                'social': '💑 社交/伴侣',
+                'learning': '📚 学习/提升'
+            };
+            for (var c = 0; c < CATEGORIES.length; c++) {
+                var cat = CATEGORIES[c];
+                var items = data[cat.key] || [];
+                if (items.length === 0) continue;
+                var div = document.createElement('div');
+                div.className = 'section';
+                var html = '<div class="label">' + nameMap[cat.key] + '</div>';
+                for (var i = 0; i < items.length; i++) {
+                    html += '<div class="item">' + items[i] + '</div>';
+                }
+                div.innerHTML = html;
+                container.appendChild(div);
+            }
+        }
+
+        function handleUnlock() {
+            if (isUnlocked) return;
+            $('modalOverlay').classList.remove('hidden');
+            $('modalTitle').textContent = '🎉 预约成功！';
+            $('modalDesc').textContent = '你的会员码是 ' + memberCode + '。上线后第一时间通知你。';
+            isUnlocked = true;
+            localStorage.setItem('nspc_unlock', JSON.stringify({ code: memberCode, time: Date.now() }));
+            updatePremiumUI();
+        }
+
+        function closeModal(e) {
+            if (e && e.target && !e.target.closest('.modal-box')) {
+                $('modalOverlay').classList.add('hidden');
+                return;
+            }
+            $('modalOverlay').classList.add('hidden');
+        }
+
+        // ========== 名片 ==========
+        function drawCard(dim, data) {
+            var canvas = $('cardCanvas');
+            var ctx = canvas.getContext('2d');
+            var w = 600,
+                h = 400;
+
+            var grad = ctx.createLinearGradient(0, 0, w, h);
+            grad.addColorStop(0, '#f7f5f0');
+            grad.addColorStop(1, '#ede8e2');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, w, h);
+
+            ctx.strokeStyle = '#c9a84c';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(20, 20, w - 40, h - 40);
+
+            ctx.fillStyle = '#b8a69b';
+            ctx.font = '11px "PingFang SC", sans-serif';
+            ctx.fillText('✦ 北欧第二春 · 积极抗衰优势认证', 40, 52);
+
+            ctx.font = '42px sans-serif';
+            ctx.fillText(data.icon, 40, 135);
+
+            ctx.fillStyle = '#1a2a3a';
+            ctx.font = 'bold 26px "PingFang SC", sans-serif';
+            var tw = data.tag.split('·');
+            ctx.fillText(tw[0] + ' ·', 100, 115);
+            ctx.fillStyle = '#4a4340';
+            ctx.font = 'bold 24px "PingFang SC", sans-serif';
+            ctx.fillText(tw[1] || '', 100, 148);
+
+            ctx.fillStyle = '#b8a69b';
+            ctx.font = '12px "PingFang SC", sans-serif';
+            ctx.fillText('认证编号：' + memberCode, 40, 178);
+
+            ctx.strokeStyle = '#e0d7d0';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(40, 200);
+            ctx.lineTo(w - 40, 200);
+            ctx.stroke();
+
+            ctx.fillStyle = '#4a4340';
+            ctx.font = '12px "PingFang SC", sans-serif';
+            ctx.fillText('🧭 积极抗衰方向', 40, 228);
+            ctx.fillStyle = '#1a2a3a';
+            ctx.font = '14px "PingFang SC", sans-serif';
+            var lines = data.suggestion.split('\n').filter(function(s) { return s.trim(); });
+            var y = 254;
+            for (var i = 0; i < lines.length && y < 330; i++) {
+                ctx.fillText(lines[i].trim(), 40, y);
+                y += 26;
+            }
+
+            ctx.fillStyle = '#b8a69b';
+            ctx.font = '9px "PingFang SC", sans-serif';
+            ctx.fillText('📄 ' + data.reference.slice(0, 44) + '…', 40, h - 32);
+
+            ctx.fillStyle = '#ccc5bf';
+            ctx.font = '9px sans-serif';
+            ctx.fillText('NSPC·' + memberCode, w - 130, h - 32);
+
+            canvas.dataset.serial = memberCode;
+        }
+
+        function saveCard() {
+            var canvas = $('cardCanvas');
+            var link = document.createElement('a');
+            link.download = '优势名片_' + (canvas.dataset.serial || 'DK') + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        function resetQuiz() {
+            $('page-result').classList.remove('active');
+            $('page-home').classList.add('active');
+            currentQuestion = 0;
+            scores = { '共情力': 0, '表达力': 0, '行动力': 0 };
+            answers = [];
+            $('progressFill').style.width = '0%';
+        }
+
+        // 暴露全局
+        window.startQuiz = startQuiz;
+        window.goPrev = goPrev;
+        window.goNext = goNext;
+        window.saveCard = saveCard;
+        window.resetQuiz = resetQuiz;
+        window.handleUnlock = handleUnlock;
+        window.closeModal = closeModal;
+
+        console.log('✅ 页面加载完成！');
+    </script>
+
+</body>
+</html>
