@@ -103,6 +103,44 @@
         .home-theory strong {
             color: #1a2a3a;
         }
+        .home-time {
+            text-align: center;
+            font-size: 13px;
+            color: #b8a69b;
+            margin-bottom: 18px;
+        }
+        .home-time span {
+            background: #f0ebe6;
+            padding: 4px 14px;
+            border-radius: 20px;
+        }
+        .region-selector {
+            margin-bottom: 18px;
+        }
+        .region-selector label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a2a3a;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .region-selector .row {
+            display: flex;
+            gap: 10px;
+        }
+        .region-selector select {
+            flex: 1;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid #e8e4de;
+            font-size: 15px;
+            background: #fff;
+            color: #1a2a3a;
+        }
+        .region-selector select:focus {
+            outline: none;
+            border-color: #c9a84c;
+        }
         .btn-primary {
             display: block;
             width: 100%;
@@ -124,22 +162,37 @@
         .btn-primary .emoji {
             margin-right: 6px;
         }
+        .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
         .home-footer {
             text-align: center;
             margin-top: 18px;
             font-size: 12px;
             color: #ccc5bf;
         }
-        .home-time {
+        .counter-bar {
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 1px solid #e8e4de;
             text-align: center;
+        }
+        .counter-bar .total {
+            font-size: 15px;
+            color: #4a4340;
+        }
+        .counter-bar .total strong {
+            font-size: 22px;
+            color: #1a2a3a;
+        }
+        .counter-bar .region {
             font-size: 13px;
             color: #b8a69b;
-            margin-bottom: 18px;
+            margin-top: 4px;
         }
-        .home-time span {
-            background: #f0ebe6;
-            padding: 4px 14px;
-            border-radius: 20px;
+        .counter-bar .region strong {
+            color: #4a4340;
         }
         .progress-wrap {
             display: flex;
@@ -330,6 +383,19 @@
             font-size: 12px;
             color: #6a6a6a;
             line-height: 1.7;
+        }
+        .result-stats {
+            background: #f0ebe6;
+            border-radius: 14px;
+            padding: 14px 18px;
+            margin: 12px 0 16px;
+            text-align: center;
+            font-size: 13px;
+            color: #4a4340;
+            line-height: 1.8;
+        }
+        .result-stats strong {
+            color: #1a2a3a;
         }
         .card-preview {
             margin: 20px 0 16px;
@@ -622,6 +688,15 @@
         .mt-12 {
             margin-top: 12px;
         }
+        .mt-20 {
+            margin-top: 20px;
+        }
+        .pt-18 {
+            padding-top: 18px;
+        }
+        .border-top {
+            border-top: 1px solid #e8e4de;
+        }
     </style>
 </head>
 <body>
@@ -630,7 +705,7 @@
 
         <div class="brand"><span>✦ 北欧第二春 · 积极抗衰实验室</span></div>
 
-        <!-- 首页 -->
+        <!-- ========== 首页 ========== -->
         <div class="page active" id="page-home">
             <div class="home-title">
                 测出你的「积极抗衰」优势
@@ -643,14 +718,34 @@
             <div class="home-theory">
                 <strong>📄 本工具的理论框架</strong> 参考了北京大学教育学院2025年《老年教育背景下积极老龄化量表的编制与测量》的研究成果。
             </div>
+
+            <!-- 地区选择 -->
+            <div class="region-selector">
+                <label>📍 你在哪个地区？</label>
+                <div class="row">
+                    <select id="provinceSelect" onchange="updateCity()">
+                        <option value="">选择省份</option>
+                    </select>
+                    <select id="citySelect">
+                        <option value="">选择城市</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="home-time"><span>⏱️ 约10-15分钟 · 建议静心完成</span></div>
-            <button class="btn-primary" onclick="startQuiz()">
+            <button class="btn-primary" id="btnStart" onclick="startQuiz()">
                 <span class="emoji">🧭</span> 开始自我勘探
             </button>
             <div class="home-footer">免费 · 生成专属优势名片 · 可保存分享</div>
+
+            <!-- ====== 计数器（首页底部） ====== -->
+            <div class="counter-bar">
+                <div class="total">📊 已有 <strong id="totalCount">0</strong> 人完成测评</div>
+                <div class="region" id="regionCountDisplay">选择地区后显示本地参与人数</div>
+            </div>
         </div>
 
-        <!-- 做题页 -->
+        <!-- ========== 做题页 ========== -->
         <div class="page" id="page-quiz">
             <div class="progress-wrap">
                 <div class="progress-bar"><div class="fill" id="progressFill"></div></div>
@@ -666,7 +761,7 @@
             </div>
         </div>
 
-        <!-- 结果页 -->
+        <!-- ========== 结果页 ========== -->
         <div class="page" id="page-result">
             <div class="result-badge">
                 <div class="icon" id="resultIcon">🌟</div>
@@ -686,6 +781,12 @@
                 <div class="label">📄 学术参考</div>
                 <div class="text" id="resultReference">—</div>
             </div>
+
+            <!-- 地区统计 -->
+            <div class="result-stats" id="resultStats">
+                📊 你所在的 <strong id="statCity">—</strong> 已有 <strong id="statCount">0</strong> 人参与测评
+            </div>
+
             <div class="card-preview">
                 <canvas id="cardCanvas" width="600" height="400"></canvas>
             </div>
@@ -724,12 +825,19 @@
             </div>
 
             <button class="btn-outline" onclick="resetQuiz()">🔄 重新测试</button>
-            <div class="text-center" style="margin-top:14px;font-size:12px;color:#ccc5bf;">
+
+            <!-- ====== 计数器（结果页底部） ====== -->
+            <div class="counter-bar mt-20 pt-18 border-top">
+                <div class="total">📊 已有 <strong id="resultTotalCount">0</strong> 人完成测评</div>
+                <div class="region" id="resultRegionCount">—</div>
+            </div>
+
+            <div class="text-center" style="margin-top:12px;font-size:12px;color:#ccc5bf;">
                 数据仅用于生成报告，不会存储或泄露
             </div>
         </div>
 
-        <!-- 弹窗 -->
+        <!-- ========== 弹窗 ========== -->
         <div class="modal-overlay hidden" id="modalOverlay" onclick="closeModal(event)">
             <div class="modal-box" onclick="event.stopPropagation()">
                 <div class="icon">🎉</div>
@@ -741,6 +849,99 @@
 
     </div>
 
-    <script src="app.js"></script>
-</body>
-</html>
+    <script>
+        // ================================================================
+        //  1. 省份和城市数据
+        // ================================================================
+        var cityData = {
+            '北京': ['北京市'],
+            '上海': ['上海市'],
+            '天津': ['天津市'],
+            '重庆': ['重庆市'],
+            '河北': ['石家庄', '唐山', '保定', '邯郸', '秦皇岛'],
+            '山西': ['太原', '大同', '阳泉', '长治', '晋城'],
+            '辽宁': ['沈阳', '大连', '鞍山', '抚顺', '锦州'],
+            '吉林': ['长春', '吉林', '四平', '辽源', '通化'],
+            '黑龙江': ['哈尔滨', '齐齐哈尔', '大庆', '牡丹江', '佳木斯'],
+            '江苏': ['南京', '苏州', '无锡', '常州', '扬州', '南通', '镇江', '徐州', '盐城', '淮安'],
+            '浙江': ['杭州', '宁波', '温州', '嘉兴', '绍兴', '湖州', '金华', '台州', '舟山', '衢州'],
+            '安徽': ['合肥', '芜湖', '蚌埠', '淮南', '马鞍山', '安庆', '黄山'],
+            '福建': ['福州', '厦门', '泉州', '漳州', '龙岩', '三明'],
+            '江西': ['南昌', '九江', '赣州', '景德镇', '萍乡', '鹰潭'],
+            '山东': ['青岛', '济南', '烟台', '威海', '潍坊', '淄博', '临沂', '济宁', '泰安', '日照'],
+            '河南': ['郑州', '洛阳', '新乡', '开封', '焦作', '安阳', '南阳'],
+            '湖北': ['武汉', '宜昌', '襄阳', '荆州', '黄石', '十堰'],
+            '湖南': ['长沙', '株洲', '湘潭', '衡阳', '岳阳', '常德', '张家界'],
+            '广东': ['广州', '深圳', '佛山', '东莞', '中山', '珠海', '惠州', '江门', '汕头', '湛江'],
+            '海南': ['海口', '三亚', '儋州', '文昌', '琼海'],
+            '四川': ['成都', '绵阳', '德阳', '宜宾', '泸州', '南充', '乐山'],
+            '贵州': ['贵阳', '遵义', '安顺', '六盘水', '毕节', '铜仁'],
+            '云南': ['昆明', '大理', '丽江', '曲靖', '玉溪', '红河州', '西双版纳'],
+            '陕西': ['西安', '咸阳', '宝鸡', '渭南', '延安', '汉中'],
+            '甘肃': ['兰州', '天水', '酒泉', '张掖', '武威', '平凉'],
+            '青海': ['西宁', '海东', '格尔木'],
+            '内蒙古': ['呼和浩特', '包头', '赤峰', '通辽', '鄂尔多斯', '呼伦贝尔'],
+            '广西': ['南宁', '桂林', '柳州', '梧州', '北海', '玉林'],
+            '西藏': ['拉萨', '日喀则', '昌都', '林芝'],
+            '宁夏': ['银川', '石嘴山', '吴忠', '固原'],
+            '新疆': ['乌鲁木齐', '克拉玛依', '吐鲁番', '哈密', '阿克苏', '喀什'],
+            '台湾': ['台北', '台中', '高雄', '台南', '基隆', '新竹'],
+            '香港': ['香港岛', '九龙', '新界'],
+            '澳门': ['澳门半岛', '氹仔', '路环']
+        };
+        var provinceList = Object.keys(cityData);
+
+        // ================================================================
+        //  2. 计数器数据
+        // ================================================================
+        function getCounterData() {
+            var data = localStorage.getItem('nspc_counter');
+            if (data) {
+                try { return JSON.parse(data); } catch (e) {}
+            }
+            return { total: 0, cities: {} };
+        }
+
+        function saveCounterData(data) {
+            localStorage.setItem('nspc_counter', JSON.stringify(data));
+        }
+
+        function incrementCounter(city) {
+            var data = getCounterData();
+            data.total = (data.total || 0) + 1;
+            if (city && city !== '') {
+                data.cities = data.cities || {};
+                data.cities[city] = (data.cities[city] || 0) + 1;
+            }
+            saveCounterData(data);
+            updateAllCounters(city);
+            return data;
+        }
+
+        function updateAllCounters(selectedCity) {
+            var data = getCounterData();
+            var total = data.total || 0;
+            var city = selectedCity || '';
+            var cityCount = (city && data.cities && data.cities[city]) || 0;
+
+            // 首页计数器
+            var el1 = document.getElementById('totalCount');
+            if (el1) el1.textContent = total;
+
+            var el2 = document.getElementById('regionCountDisplay');
+            if (el2) {
+                if (city && city !== '') {
+                    el2.textContent = '📍 ' + city + ' 已有 ' + cityCount + ' 人参与';
+                } else {
+                    el2.textContent = '选择地区后显示本地参与人数';
+                }
+            }
+
+            // 结果页计数器
+            var el3 = document.getElementById('resultTotalCount');
+            if (el3) el3.textContent = total;
+
+            var el4 = document.getElementById('resultRegionCount');
+            if (el4) {
+                if (city && city !== '') {
+                    el4.textContent = '📍 ' + city
